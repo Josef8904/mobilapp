@@ -1,0 +1,38 @@
+export default {
+  expo: {
+    name: "mobilapp",
+    slug: "mobilapp",
+    version: "1.0.0",
+    orientation: "portrait",
+    icon: "./assets/icon.png",
+    userInterfaceStyle: "light",
+    splash: {
+      image: "./assets/splash-icon.png",
+      resizeMode: "contain",
+      backgroundColor: "#ffffff",
+    },
+    assetBundlePatterns: ["**/*"],
+    ios: {
+      supportsTablet: true,
+      infoPlist: {
+        NSLocationWhenInUseUsageDescription:
+          "Appen behöver din plats för att visa vädret där du är.",
+      },
+    },
+    android: {
+      adaptiveIcon: {
+        foregroundImage: "./assets/adaptive-icon.png",
+        backgroundColor: "#ffffff",
+      },
+      permissions: ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"],
+    },
+    web: {
+      bundler: "metro",
+      favicon: "./assets/favicon.png",
+    },
+    plugins: ["expo-location"],
+    extra: {
+      OPENWEATHER_API_KEY: process.env.EXPO_PUBLIC_OPENWEATHER_API_KEY,
+    },
+  },
+};
