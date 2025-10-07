@@ -11,7 +11,7 @@ export default function WeatherCard({ data }) {
     );
   }
 
-  const { temp, description, icon, cityName } = data;
+  const { temp, feelsLike, humidity, wind, description, icon, cityName } = data;
 
   return (
     <View style={styles.card}>
@@ -19,8 +19,27 @@ export default function WeatherCard({ data }) {
       <Image source={{ uri: getIconUri(icon) }} style={styles.icon} resizeMode="contain" />
       <Text style={styles.temp}>{temp}°C</Text>
       <Text style={styles.desc}>{capitalize(description)}</Text>
+
+      <View style={styles.row}>
+        <InfoPill label="Känns som" value={`${numOrDash(feelsLike)}°C`} />
+        <InfoPill label="Vind" value={`${numOrDash(wind)} m/s`} />
+        <InfoPill label="Fukt" value={`${numOrDash(humidity)}%`} />
+      </View>
     </View>
   );
+}
+
+function InfoPill({ label, value }) {
+  return (
+    <View style={styles.pill}>
+      <Text style={styles.pillLabel}>{label}</Text>
+      <Text style={styles.pillValue}>{value}</Text>
+    </View>
+  );
+}
+
+function numOrDash(v) {
+  return v === null || v === undefined || Number.isNaN(v) ? "—" : v;
 }
 
 function capitalize(s) {
@@ -35,15 +54,32 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
     elevation: 3,
   },
   center: { alignItems: "center", justifyContent: "center" },
   city: { fontSize: 18, fontWeight: "600", marginBottom: 8 },
   icon: { width: 120, height: 120, marginVertical: 8 },
   temp: { fontSize: 42, fontWeight: "700", marginVertical: 4 },
-  desc: { fontSize: 16, color: "#555" },
+  desc: { fontSize: 16, color: "#555", marginBottom: 12 },
   muted: { color: "#888" },
+  row: {
+    flexDirection: "row",
+    gap: 8,
+    width: "100%",
+    justifyContent: "space-between",
+    marginTop: 8,
+  },
+  pill: {
+    flex: 1,
+    backgroundColor: "#f3f4f6",
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    alignItems: "center",
+  },
+  pillLabel: { fontSize: 12, color: "#666" },
+  pillValue: { fontSize: 16, fontWeight: "600", marginTop: 2 },
 });

@@ -49,10 +49,13 @@ export async function getWeatherByCity(cityInput) {
 
 function mapWeather(data) {
   const temp = Math.round(data.main?.temp);
+  const feelsLike = Math.round(data.main?.feels_like);
+  const humidity = data.main?.humidity ?? null;
+  const wind = data.wind?.speed ?? null; // m/s
   const description = data.weather?.[0]?.description ?? "—";
   const icon = data.weather?.[0]?.icon ?? "01d";
   const cityName = `${data.name || ""}${data.sys?.country ? ", " + data.sys.country : ""}`.trim();
-  return { temp, description, icon, cityName };
+  return { temp, feelsLike, humidity, wind, description, icon, cityName };
 }
 
 function logError(err) {
